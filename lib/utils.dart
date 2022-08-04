@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
@@ -43,6 +44,17 @@ Future<PhotoItem> pickImage(String collection) async {
   String date = (await pickedImage!.lastModified()).toString().substring(0, 10);
 
   PhotoItem result = PhotoItem(image!.path, date);
+  return result;
+}
+
+Future<PhotoItem> copyImage(File file, String collection) async {
+  final appDir = await syspaths.getApplicationDocumentsDirectory();
+
+  // copy the file to a new path
+  await file.copy('${appDir.path}/$collection/${file.path.split("/").last}');
+  String date = (await file.lastModified()).toString().substring(0, 10);
+
+  PhotoItem result = PhotoItem(file.path, date);
   return result;
 }
 

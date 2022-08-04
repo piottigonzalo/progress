@@ -63,10 +63,6 @@ class NewCollectionFormState extends State<NewCollectionForm> {
                           // you'd often call a server or save the information in a database.
                           String name = myController.text;
                           createDirectory(name);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Collection "$name" created')),
-                          );
                           widget.notifyParent();
                           Navigator.pop(context);
                         }

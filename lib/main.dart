@@ -5,8 +5,20 @@ import 'form.dart';
 import 'dart:async';
 import 'models.dart';
 import 'gallery.dart';
+import 'package:camera/camera.dart';
+
+late final List<CameraDescription> cameras;
+Future<void> getCameras() async {
+  // Ensure that plugin services are initialized so that `availableCameras()`
+  // can be called before `runApp()`
+  WidgetsFlutterBinding.ensureInitialized();
+  // Obtain a list of the available cameras on the device.
+  cameras = await availableCameras();
+  // Get a specific camera from the list of available cameras.
+}
 
 void main() {
+  getCameras();
   runApp(const MyApp());
 }
 
@@ -65,9 +77,9 @@ class _HomeState extends State<Home> {
                     itemBuilder: (BuildContext context, int index) {
                       return Dismissible(
                         key: ValueKey(data[index]),
-                        background: Container(
-                            color: Colors.red,
-                            padding: const EdgeInsets.only(right: 20.0),
+                        background: Card(
+                            shadowColor: Colors.red,
+                            //padding: const EdgeInsets.only(right: 20.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: const <Widget>[
@@ -83,8 +95,9 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      RouteOne(collection: data[index])),
+                                builder: (context) =>
+                                    RouteOne(collection: data[index]),
+                              ),
                             );
                           },
                         ),
